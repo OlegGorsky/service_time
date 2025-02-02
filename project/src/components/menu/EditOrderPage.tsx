@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FormEvent, ChangeEvent, Dispatch, SetStateAction } from 'react';
+import type { FormEvent, ChangeEvent } from 'react';
 import { useState, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useTelegramWebApp } from '../../hooks/useTelegramWebApp';
@@ -66,9 +66,6 @@ interface SearchQueries {
 
 type FormState = FormData;
 type SearchState = SearchQueries;
-
-type SetFormData = Dispatch<SetStateAction<FormState>>;
-type SetSearchQueries = Dispatch<SetStateAction<SearchState>>;
 
 export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) {
   const { user } = useTelegramWebApp();
@@ -305,21 +302,31 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
       onClose();
     } catch (error) {
       logger.error('Error updating order:', error);
-      setError(error instanceof Error ? error.message : 'Ошибка при обновлении заявки');
+      const errorMessage = error instanceof Error ? error.message : 'Ошибка при обновлении заявки';
+      setError(errorMessage);
+      
+      const webApp = window.Telegram?.WebApp;
+      if (webApp?.showPopup) {
+        webApp.showPopup({
+          title: 'Ошибка',
+          message: errorMessage,
+          buttons: [{ type: 'close' }]
+        });
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof FormData) => {
-    setFormData((prev: FormState) => ({
+    setFormData(prev => ({
       ...prev,
       [field]: e.target.value
     }));
   };
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>, field: keyof SearchQueries) => {
-    setSearchQueries((prev: SearchState) => ({
+    setSearchQueries(prev => ({
       ...prev,
       [field]: e.target.value
     }));
@@ -369,7 +376,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
               <input
                 type="tel"
                 value={formData.client_phone}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData((prev: FormState) => ({
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData(prev => ({
                   ...prev,
                   client_phone: formatPhoneNumber(e.target.value)
                 }))}
@@ -385,7 +392,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
               <input
                 type="text"
                 value={formData.client_address}
-                onChange={e => handleInputChange(e, 'client_address')}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, 'client_address')}
                 className="w-full bg-[#2D2D2D] rounded-lg px-4 py-3 text-white"
                 placeholder="Введите адрес"
               />
@@ -398,7 +405,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
               <input
                 type="number"
                 value={formData.vehicle_year}
-                onChange={e => handleInputChange(e, 'vehicle_year')}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, 'vehicle_year')}
                 min="1900"
                 max={new Date().getFullYear()}
                 className="w-full bg-[#2D2D2D] rounded-lg px-4 py-3 text-white"
@@ -436,7 +443,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
                         key={district}
                         type="button"
                         onClick={() => {
-                          setFormData((prev: FormState) => ({
+                          setFormData(prev => ({
                             ...prev,
                             district: district
                           }));
@@ -483,7 +490,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
                         key={spec}
                         type="button"
                         onClick={() => {
-                          setFormData((prev: FormState) => ({
+                          setFormData(prev => ({
                             ...prev,
                             specialization: spec
                           }));
@@ -515,7 +522,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
                     key={type}
                     type="button"
                     onClick={() => {
-                      setFormData((prev: FormState) => ({
+                      setFormData(prev => ({
                         ...prev,
                         vehicle_type: type as VehicleType,
                         selected_option: ''
@@ -567,7 +574,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
                           key={option}
                           type="button"
                           onClick={() => {
-                            setFormData((prev: FormState) => ({
+                            setFormData(prev => ({
                               ...prev,
                               selected_option: option
                             }));
@@ -590,7 +597,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
               <input
                 type="number"
                 value={formData.amount}
-                onChange={e => handleInputChange(e, 'amount')}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, 'amount')}
                 min="0"
                 step="100"
                 className="w-full bg-[#2D2D2D] rounded-lg px-4 py-3 text-white"
@@ -605,7 +612,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
               <input
                 type="number"
                 value={formData.commission}
-                onChange={e => handleInputChange(e, 'commission')}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, 'commission')}
                 min="0"
                 step="100"
                 className="w-full bg-[#2D2D2D] rounded-lg px-4 py-3 text-white"
@@ -619,7 +626,7 @@ export function EditOrderPage({ order, onClose, onUpdate }: EditOrderPageProps) 
               </label>
               <textarea
                 value={formData.comment}
-                onChange={e => handleInputChange(e, 'comment')}
+                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleInputChange(e, 'comment')}
                 className="w-full bg-[#2D2D2D] rounded-lg px-4 py-3 text-white resize-none"
                 rows={3}
                 placeholder="Введите комментарий"
