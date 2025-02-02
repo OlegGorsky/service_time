@@ -1,0 +1,27 @@
+export const carBrandsByRegion = {
+  'Европа': [
+    'ALFA ROMEO', 'ASTON MARTIN', 'AUDI', 'BENTLEY', 'BMW', 'BUGATTI',
+    'CITROEN', 'DACIA', 'DS', 'FERRARI', 'FIAT', 'GAZ', 'JAGUAR',
+    'LADA', 'LAMBORGHINI', 'LANCIA', 'LAND ROVER', 'MASERATI',
+    'MAYBACH', 'MERCEDES', 'MERCEDES-BENZ', 'MINI', 'MOSKVICH',
+    'OPEL', 'PEUGEOT', 'PORSCHE', 'RAVON', 'RENAULT', 'ROLLS-ROYCE',
+    'ROVER', 'SAAB', 'SEAT', 'SKODA', 'SMART', 'TAGAZ', 'UAZ', 'VAZ',
+    'VOLKSWAGEN', 'VOLVO', 'ZAZ'
+  ],
+  'Америка': [
+    'BUICK', 'CADILLAC', 'CHEVROLET', 'CHRYSLER', 'DODGE', 'FORD',
+    'FREIGHTLINER', 'JEEP', 'LINCOLN', 'MERCURY', 'GENERAL MOTORS',
+    'GMC', 'HUMMER', 'MCLAREN', 'TESLA'
+  ],
+  'Китай': [
+    'BRILLIANCE', 'BYD', 'CHANGAN', 'CHERY', 'DONGFENG', 'EXEED',
+    'FAW', 'FOTON', 'GAC', 'GEELY', 'GREAT WALL', 'HAIMA', 'HAVAL',
+    'JAC', 'LIFAN', 'LUXGEN', 'ZOTYE'
+  ],
+  'Азия': [
+    'ACURA', 'DAEWOO', 'DAIHATSU', 'DATSUN', 'GENESIS', 'HONDA',
+    'HYUNDAI', 'INFINITI', 'ISUZU', 'KIA', 'LEXUS', 'MAZDA',
+    'MITSUBISHI', 'NISSAN', 'SCION', 'SSANGYONG', 'SUBARU',
+    'SUZUKI', 'TOYOTA'
+  ]
+} as const;

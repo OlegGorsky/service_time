@@ -1,0 +1,15 @@
+[auth]
+site_url = "https://servicetime.gorskyapp.store"
+additional_redirect_urls = ["https://servicetime.gorskyapp.store/*"]
+
+[api]
+enabled_apis = ["rest", "realtime", "storage"]
+port = 54321
+
+[cors]
+enabled = true
+allowed_origins = ["https://servicetime.gorskyapp.store"]
+allowed_methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+allowed_headers = ["authorization", "x-client-info", "apikey", "content-type"]
+exposed_headers = ["content-range"]
+max_age = 300

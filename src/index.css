@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0F0F0F;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.car {
+  display: inline-block;
+  position: relative;
+}
+
+.car-svg {
+  display: block;
+  width: 100px;
+  height: 100px;
+}
